@@ -110,6 +110,7 @@ class kb_checkVTest(unittest.TestCase):
                                                'min_length': 'ten'})
 
     def test_run_kb_checkV_checkv_help(self):
+
         process = subprocess.run(['checkv', '--help'],
                                  stdout=subprocess.PIPE)
         print(process.stdout.decode("utf-8"))
