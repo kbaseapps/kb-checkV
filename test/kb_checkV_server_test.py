@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import os
+import subprocess
 import time
 import unittest
+
 from configparser import ConfigParser
 
 from kb_checkV.kb_checkVImpl import kb_checkV
@@ -102,4 +104,10 @@ class kb_checkVTest(unittest.TestCase):
                                               {'workspace_name': self.wsName,
                                                'assembly_input_ref': '1/fake/3',
                                                'min_length': 'ten'})
+
+    def test_run_kb_checkV_checkv_help(self):
+        process = subprocess.run(['checkv', '--help'],
+                                 stdout=subprocess.PIPE)
+        print(process.stdout.decode("utf-8"))
+
 

@@ -11,9 +11,18 @@ MAINTAINER KBase Developer
 
 # -----------------------------------------
 
+
+RUN apt-get update
+RUN apt-get -y install gcc
+RUN conda install -c conda-forge -c bioconda checkv
+RUN mkdir -p /kb/module/work/database
+RUN checkv download_database /kb/module/work/database
+RUN git clone https://bitbucket.org/berkeleylab/checkv.git /kb/module/work/checkv
+ENV CHECKVDB="/kb/module/work/database/checkv-db-v0.6"
 COPY ./ /kb/module
-RUN mkdir -p /kb/module/work
-RUN chmod -R a+rw /kb/module
+RUN mkdir -p /kb/module/work/outputdir
+
+# RUN chmod -R a+rw /kb/module
 
 WORKDIR /kb/module
 

@@ -29,8 +29,8 @@ This sample module contains one small method that filters contigs.
     # the latter method is running.
     ######################################### noqa
     VERSION = "0.0.1"
-    GIT_URL = ""
-    GIT_COMMIT_HASH = ""
+    GIT_URL = "https://github.com/Yzm1234/kb-checkV.git"
+    GIT_COMMIT_HASH = "4c667cd6b57f43841a319020b6415f85858ed28b"
 
     #BEGIN_CLASS_HEADER
     # Class variables and functions can be defined in this block
