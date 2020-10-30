@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import csv
 import os
 import subprocess
 import time
@@ -13,6 +14,9 @@ from kb_checkV.authclient import KBaseAuth as _KBaseAuth
 from installed_clients.AssemblyUtilClient import AssemblyUtil
 from installed_clients.WorkspaceClient import Workspace
 
+output_dir = "/kb/module/work/outputdir"
+input_file_path = "/kb/module/work/checkv/test/test_sequences.fna"
+ground_truth_path = "/kb/module/work/test/ground_truth"
 
 class kb_checkVTest(unittest.TestCase):
 
@@ -109,5 +113,32 @@ class kb_checkVTest(unittest.TestCase):
         process = subprocess.run(['checkv', '--help'],
                                  stdout=subprocess.PIPE)
         print(process.stdout.decode("utf-8"))
+
+
+    def test_checkv_end_to_end(self):
+        # setup environment
+        os.environ['CHECKVDB'] = "/kb/module/work/database/checkv-db-v0.6"
+
+        # Run command
+        process = subprocess.run(['checkv', 'end_to_end', input_file_path, output_dir, '-t', '16'],
+                                 stdout=subprocess.PIPE)
+        print(process.stdout.decode("utf-8"))
+        self.assertEqual(process.returncode, 0)
+
+        # Compare files with
+        files = ['complete_genomes.tsv', 'completeness.tsv', 'contamination.tsv', 'quality_summary.tsv']
+        for file in files:
+            truth_file_path = os.path.join(ground_truth_path, file)
+            gen_file_path = os.path.join(output_dir, file)
+            self.assertTrue(gen_file_path)
+            with open(gen_file_path) as gen_f:
+                gen_file = csv.reader(gen_f, delimiter="\t", quotechar='"')
+                gen_header = next(gen_file)
+            with open(truth_file_path) as truth_f:
+                truth_file = csv.reader(truth_f, delimiter="\t", quotechar='"')
+                truth_header = next(truth_file)
+            self.assertEqual(gen_header, truth_header)
+
+
 
 

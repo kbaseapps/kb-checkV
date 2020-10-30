@@ -19,6 +19,8 @@ RUN mkdir -p /kb/module/work/database
 RUN checkv download_database /kb/module/work/database
 RUN git clone https://bitbucket.org/berkeleylab/checkv.git /kb/module/work/checkv
 ENV CHECKVDB="/kb/module/work/database/checkv-db-v0.6"
+# I tried to put numpy above at line 17 after checkv but the kb-sdk test setup part fails because some module called "nose" is missing, but it works installing numpy here
+RUN conda install -c conda-forge -c bioconda numpy
 COPY ./ /kb/module
 RUN mkdir -p /kb/module/work/outputdir
 
