@@ -1,5 +1,5 @@
 FROM kbase/sdkbase2:python
-MAINTAINER KBase Developer
+MAINTAINER zyang@bnl.gov
 # -----------------------------------------
 # In this section, you can install any system dependencies required
 # to run your App.  For instance, you could place an apt-get update or
@@ -12,24 +12,20 @@ MAINTAINER KBase Developer
 # -----------------------------------------
 
 
-RUN apt-get update
-RUN apt-get -y install gcc
+RUN \
+    apt-get update && \
+    apt-get -y install gcc
 RUN conda install -c conda-forge -c bioconda checkv
-RUN mkdir -p /kb/module/work/database
-RUN checkv download_database /kb/module/work/database
+# RUN conda install -c conda-forge -c bioconda numpy
+RUN mkdir -p /kb/module/work/outputdir && \
+    mkdir -p /kb/module/work/checkv
 RUN git clone https://bitbucket.org/berkeleylab/checkv.git /kb/module/work/checkv
-ENV CHECKVDB="/kb/module/work/database/checkv-db-v0.6"
-# I tried to put numpy above at line 17 after checkv but the kb-sdk test setup part fails because some module called "nose" is missing, but it works installing numpy here
 RUN conda install -c conda-forge -c bioconda numpy
+RUN chmod -R a+rw /kb/module
+ENV CHECKVDB="/kb/module/data/checkv-db-v0.6"
 COPY ./ /kb/module
-RUN mkdir -p /kb/module/work/outputdir
-
-# RUN chmod -R a+rw /kb/module
-
 WORKDIR /kb/module
-
-RUN make all
+RUN  make all
 
 ENTRYPOINT [ "./scripts/entrypoint.sh" ]
-
 CMD [ ]
