@@ -16,16 +16,18 @@ RUN \
     apt-get update && \
     apt-get -y install gcc
 RUN conda install -c conda-forge -c bioconda checkv
-# RUN conda install -c conda-forge -c bioconda numpy
 RUN mkdir -p /kb/module/work/outputdir && \
     mkdir -p /kb/module/work/checkv
 RUN git clone https://bitbucket.org/berkeleylab/checkv.git /kb/module/work/checkv
-RUN conda install -c conda-forge -c bioconda numpy
+RUN pip install numpy
+
 RUN chmod -R a+rw /kb/module
-ENV CHECKVDB="/kb/module/data/checkv-db-v0.6"
+ENV CHECKVDB="/data/checkv-db-v0.6"
 COPY ./ /kb/module
+RUN mkdir -p /data && \
+    mkdir -p /data/checkv-db-v0.6
 WORKDIR /kb/module
 RUN  make all
 
-ENTRYPOINT [ "./scripts/entrypoint.sh" ]
+ENTRYPOINT [ "./scripts/entrypoint.sh"]
 CMD [ ]

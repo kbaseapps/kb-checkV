@@ -117,7 +117,7 @@ class kb_checkVTest(unittest.TestCase):
 
     def test_checkv_end_to_end(self):
         # setup environment
-        os.environ['CHECKVDB'] = "/kb/module/data/checkv-db-v0.6"
+        os.environ['CHECKVDB'] = "/data/checkv-db-v0.6"
 
         # Run command
         process = subprocess.run(['checkv', 'end_to_end', input_file_path, output_dir, '-t', '16'],

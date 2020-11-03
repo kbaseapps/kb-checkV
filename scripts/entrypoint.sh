@@ -17,8 +17,7 @@ elif [ "${1}" = "async" ] ; then
   sh ./scripts/run_async.sh
 elif [ "${1}" = "init" ] ; then
   echo "Initialize module"
-  cd ./data
-  #checkv download_database ./
+  cd /data
   curl -O https://portal.nersc.gov/CheckV/checkv-db-v0.6.tar.gz
   tar -zxvf checkv-db-v0.6.tar.gz
   if [ -d checkv-db-v0.6 ] ; then
