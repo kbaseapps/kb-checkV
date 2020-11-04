@@ -14,9 +14,9 @@ from kb_checkV.authclient import KBaseAuth as _KBaseAuth
 from installed_clients.AssemblyUtilClient import AssemblyUtil
 from installed_clients.WorkspaceClient import Workspace
 
-output_dir = "/kb/module/work/outputdir"
-input_file_path = "/kb/module/work/checkv/test/test_sequences.fna"
-ground_truth_path = "/kb/module/work/test/ground_truth"
+output_dir = "/opt/work/outputdir"
+input_file_path = "/opt/work/checkv/test/test_sequences.fna"
+ground_truth_path = "/opt/work/checkv/test/ground_truth"
 
 class kb_checkVTest(unittest.TestCase):
 
@@ -121,6 +121,7 @@ class kb_checkVTest(unittest.TestCase):
 
         # Run command
         process = subprocess.run(['checkv', 'end_to_end', input_file_path, output_dir, '-t', '16'],
+        # process = subprocess.run(['ls', '-halF', '/opt/work/checkv'],
                                  stdout=subprocess.PIPE,
                                  stderr=subprocess.STDOUT)
         print("This is the output: ", process.stdout.decode("utf-8"))

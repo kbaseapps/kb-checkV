@@ -30,7 +30,7 @@ This sample module contains one small method that filters contigs.
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "https://github.com/kbaseapps/kb-checkV.git"
-    GIT_COMMIT_HASH = "f3e0c8ddc1b3a929f29de49793d68b98c68c3382"
+    GIT_COMMIT_HASH = "651fce9fb17ae72eedcc5985caa1de408198d742"
 
     #BEGIN_CLASS_HEADER
     # Class variables and functions can be defined in this block
