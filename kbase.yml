@@ -11,5 +11,7 @@ module-version:
     0.0.1
 
 owners:
-    [ziming_yang_1]
+    [ziming_yang_1, dakota]
 
+data-version:
+    0.6

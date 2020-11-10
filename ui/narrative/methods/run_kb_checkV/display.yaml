@@ -1,9 +1,11 @@
 #
 # define display information
 #
-name: Filter Contigs
+name: CheckV
 tooltip: |
-    Filters the contigs by removing contigs below a length threshold
+    CheckV tool for assessing the quality of single-contig viral genomes, including
+    identification of host contamination for integrated proviruses, estimating completeness for genome fragments, and
+    identification of closed genomes.
 screenshots: []
 
 icon: null
