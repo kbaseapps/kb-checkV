@@ -29,7 +29,6 @@ This sample module contains one small method that filters contigs.
     # the latter method is running.
     ######################################### noqa
     VERSION = "0.0.1"
-
     GIT_URL = "https://github.com/kbaseapps/kb-checkV.git"
     GIT_COMMIT_HASH = "f3e0c8ddc1b3a929f29de49793d68b98c68c3382"
 
@@ -64,6 +63,10 @@ This sample module contains one small method that filters contigs.
         # return variables are: output
         #BEGIN run_kb_checkV
 
+        # test
+        print("Hello, this is your rest:\n")
+        print("parameters:", params, "\n")
+        print("ctx:", ctx)
         # Print statements to stdout/stderr are captured and available as the App log
         logging.info('Starting run_kb_checkV function. Params=' + pformat(params))
 
