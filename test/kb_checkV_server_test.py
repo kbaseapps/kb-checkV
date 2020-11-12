@@ -87,9 +87,9 @@ class kb_checkVTest(unittest.TestCase):
         ret = self.serviceImpl.run_kb_checkV(self.ctx,
                                                 {'workspace_name': self.wsName,
                                                  'assembly_input_ref': self.assembly_ref,
-                                                 'min_length': 10
+                                                 'min_length': 10,
+                                                 'command' : 'end_to_end'
                                                  })
-
         # Validate the returned data
         self.assertEqual(ret[0]['n_initial_contigs'], 3)
         self.assertEqual(ret[0]['n_contigs_removed'], 1)
@@ -100,14 +100,16 @@ class kb_checkVTest(unittest.TestCase):
             self.serviceImpl.run_kb_checkV(self.ctx,
                                               {'workspace_name': self.wsName,
                                                'assembly_input_ref': '1/fake/3',
-                                               'min_length': '-10'})
+                                               'min_length': '-10',
+                                               'command': 'end_to_end'})
 
     def test_run_kb_checkV_min_len_parse(self):
         with self.assertRaisesRegex(ValueError, 'Cannot parse integer from min_length parameter'):
             self.serviceImpl.run_kb_checkV(self.ctx,
                                               {'workspace_name': self.wsName,
                                                'assembly_input_ref': '1/fake/3',
-                                               'min_length': 'ten'})
+                                               'min_length': 'ten',
+                                               'command': 'end_to_end'})
 
     def test_run_kb_checkV_checkv_help(self):
 

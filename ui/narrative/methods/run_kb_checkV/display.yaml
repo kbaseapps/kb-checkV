@@ -39,5 +39,10 @@ parameters :
             Min Length Threshold
         short-hint : |
             All contigs below this length will be removed
+    command :
+        ui-name : |
+            command
+        short-hint : |
+            choose the command for CheckV to execute
 description : |
     <p>This is a simple method designed to illustrate the KBase SDK.</p>
