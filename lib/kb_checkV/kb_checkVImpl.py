@@ -151,7 +151,7 @@ This sample module contains one small method that filters contigs.
         # HTML report
         # logging.info('start generating html files')
         # html_report = generate_html_report(output_dir, self.shared_folder, self.dfu)
-        html_report = generate_template_report(self.shared_folder, kbase_report_client)
+        html_report = generate_template_report(output_dir, self.shared_folder, kbase_report_client)
 
         # Step 5 - Build a Report and return
 

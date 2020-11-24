@@ -177,7 +177,7 @@
 
     const dataFiles = {
 [%    FOR item IN page_content;
-%]    "[% item.name_lc %]": "/kb/module/work/tmp/json_files_dir/[% item.file %]",
+%]    "[% item.name_lc %]": "data/[% item.file %]",
 [%    END;
 %]    },
 
