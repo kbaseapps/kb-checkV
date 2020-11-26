@@ -22,6 +22,7 @@ class kb_checkVTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        time.sleep(5)
         token = os.environ.get('KB_AUTH_TOKEN', None)
         config_file = os.environ.get('KB_DEPLOYMENT_CONFIG', None)
         cls.cfg = {}
@@ -87,7 +88,7 @@ class kb_checkVTest(unittest.TestCase):
         # call your implementation
         ret = self.serviceImpl.run_kb_checkV(self.ctx,
                                                 {'workspace_name': self.wsName,
-                                                 'command' : 'end_to_end'
+                                                 'assembly_input_ref': self.assembly_ref,
                                                  })
         # Validate the returned data
         self.assertEqual(1,1)
@@ -98,7 +99,8 @@ class kb_checkVTest(unittest.TestCase):
 
         process = subprocess.run(['checkv', '--help'],
                                  stdout=subprocess.PIPE)
-        print(process.stdout.decode("utf-8"))
+        # print(process.stdout.decode("utf-8"))
+        self.assertEqual(process.returncode, 0)
 
 
     def test_checkv_end_to_end(self):
@@ -110,7 +112,7 @@ class kb_checkVTest(unittest.TestCase):
         # process = subprocess.run(['ls', '-halF', '/opt/work/checkv'],
                                  stdout=subprocess.PIPE,
                                  stderr=subprocess.STDOUT)
-        print("This is the output: ", process.stdout.decode("utf-8"))
+        # print("This is the output: ", process.stdout.decode("utf-8"))
         self.assertEqual(process.returncode, 0)
 
         # Compare files with

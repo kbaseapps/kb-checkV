@@ -158,13 +158,14 @@ def generate_template_report(result_directory, shared_folder, report_client):
     return html_links
 
 
-def run_kb_checkv(output_dir):
+def run_kb_checkv(output_dir, fasta_file):
     """
 
     """
     os.environ['CHECKVDB'] = "/data/checkv-db-v0.6"
-    input_file_path = "/opt/work/checkv/test/test_sequences.fna"
-    return subprocess.run(['checkv', 'end_to_end', input_file_path, output_dir, '-t', '16'],
+    print("fasta_file", fasta_file)
+    # input_file_path = "/opt/work/checkv/test/test_sequences.fna"
+    return subprocess.run(['checkv', 'end_to_end', fasta_file, output_dir, '-t', '16'],
                              stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT)
 
