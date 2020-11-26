@@ -158,14 +158,29 @@ def generate_template_report(result_directory, shared_folder, report_client):
     return html_links
 
 
+def run_command(command):
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, encoding='utf8')
+    while True:
+        output = process.stdout.readline()
+        if output == '' and (process.poll() is not None):
+            break
+        if output:
+            print(output.strip())
+    rc = process.poll()
+    return rc
+
+
 def run_kb_checkv(output_dir, fasta_file):
     """
 
     """
     os.environ['CHECKVDB'] = "/data/checkv-db-v0.6"
-    print("fasta_file", fasta_file)
-    # input_file_path = "/opt/work/checkv/test/test_sequences.fna"
-    return subprocess.run(['checkv', 'end_to_end', fasta_file, output_dir, '-t', '16'],
-                             stdout=subprocess.PIPE,
-                             stderr=subprocess.STDOUT)
+    print("CheckV starts running on file:", fasta_file)
+    # # input_file_path = "/opt/work/checkv/test/test_sequences.fna"
+    # process = subprocess.run(['checkv', 'end_to_end', fasta_file, output_dir, '-t', '16'],
+    #                          stdout=subprocess.PIPE,
+    #                          stderr=subprocess.STDOUT)
+    # print(process.stdout.decode("utf-8"))
+    rc = run_command(['checkv', 'end_to_end', fasta_file, output_dir, '-t', '16'])
+    return
 

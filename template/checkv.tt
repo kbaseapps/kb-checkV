@@ -8,92 +8,71 @@
 
     # table layout bits
     complete_genomesTableCols = [
-    'contig_id',
-    'contig_length',
-    'kmer_freq',
-    'prediction_type',
-    'confidence_level',
-    'confidence_reason',
-    'repeat_length',
-    'repeat_count',
-    'repeat_n_freq',
-    'repeat_mode_base_freq',
-    'repeat_seq',
+    'Contig Id',
+    'Contig Length',
+    'Kmer Freq',
+    'Prediction Type',
+    'Confidence Level',
+    'Confidence Reason',
+    'Repeat Length',
+    'Repeat Count',
+    'Repeat N Freq',
+    'Repeat Mode Base Freq',
+    'Repeat Seq',
     ];
 
     completenessTableCols = [
-    'contig_id,'
-    'contig_length,'
-    'proviral_length,'
-    'aai_expected_length,'
-    'aai_completeness,'
-    'aai_confidence,'
-    'aai_error,'
-    'aai_num_hits,'
-    'aai_top_hit,'
-    'aai_id,'
-    'aai_af,'
-    'hmm_completeness_lower,'
-    'hmm_completeness_upper,'
-    'hmm_num_hits,'
-    'kmer_freq,'
+    'Contig Id',
+    'Contig Length',
+    'Proviral Length',
+    'Aai Expected Length',
+    'Aai Completeness',
+    'Aai Confidence',
+    'Aai Error',
+    'Aai Num Hits',
+    'Aai Top Hit',
+    'Aai Id',
+    'Aai Af',
+    'Hmm Completeness Lower',
+    'Hmm Completeness Upper',
+    'Hmm Num Hits',
+    'Kmer Freq',
     ];
 
     contaminationTableCols  = [
-    'contig_id,'
-    'contig_length,'
-    'total_genes,'
-    'viral_genes,'
-    'host_genes,'
-    'provirus,'
-    'proviral_length,'
-    'host_length,'
-    'region_types,'
-    'region_lengths,'
-    'region_coords_bp,'
-    'region_coords_genes,'
-    'region_viral_genes,'
-    'region_host_genes,'
+    'Contig Id',
+    'Contig Length',
+    'Total Genes',
+    'Viral Genes',
+    'Host Genes',
+    'Provirus',
+    'Proviral Length',
+    'Host Length',
+    'Region Types',
+    'Region Lengths',
+    'Region Coords Bp',
+    'Region Coords Genes',
+    'Region Viral Genes',
+    'Region Host Genes',
     ];
 
     quality_summaryTableCols = [
-    'contig_id,'
-    'contig_length,'
-    'provirus,'
-    'proviral_length,'
-    'gene_count,'
-    'viral_genes,'
-    'host_genes,'
-    'checkv_quality,'
-    'miuvig_quality,'
-    'completeness,'
-    'completeness_method,'
-    'contamination,'
-    'kmer_freq,'
-    'warnings,'
+    'Contig Id',
+    'Contig Length',
+    'Provirus',
+    'Proviral Length',
+    'Gene Count',
+    'Viral Genes',
+    'Host Genes',
+    'Checkv Quality',
+    'Miuvig Quality',
+    'Completeness',
+    'Completeness Method',
+    'Contamination',
+    'Kmer Freq',
+    'Warnings',
     ];
 
-    simpleTableCols = [
-    "User Genome",
-    "Classification",
-    "FastANI Reference",
-    "FastANI Reference Radius",
-    "FastANI Taxonomy",
-    "FastANI ANI",
-    "FastANI Alignment Fraction",
-    "Closest Placement Reference",
-    "Closest Placement Taxonomy",
-    "Closest Placement ANI",
-    "Closest Placement Alignment Fraction",
-    "Classification Method",
-    "Note",
-    "Other Related References",
-    "AA Percent",
-    "RED Value",
-    "Warnings",
-    ];
-
-    
 
     page_content = [
         {   name    => "complete_genomes",
@@ -182,66 +161,66 @@
 %]    },
 
     complete_genomesTableCols = [
-    {'data': 'contig_id', 'title': 'contig_id'} ,
-    {'data': 'contig_length', 'title': 'contig_length'} ,
-    {'data': 'kmer_freq', 'title': 'kmer_freq'} ,
-    {'data': 'prediction_type', 'title': 'prediction_type'} ,
-    {'data': 'confidence_level', 'title': 'confidence_level'} ,
-    {'data': 'confidence_reason', 'title': 'confidence_reason'} ,
-    {'data': 'repeat_length', 'title': 'repeat_length'} ,
-    {'data': 'repeat_count', 'title': 'repeat_count'} ,
-    {'data': 'repeat_n_freq', 'title': 'repeat_n_freq'} ,
-    {'data': 'repeat_mode_base_freq', 'title': 'repeat_mode_base_freq'} ,
-    {'data': 'repeat_seq', 'title': 'repeat_seq'} ,
+    {'data': 'contig_id', 'title': 'Contig Id'} ,
+    {'data': 'contig_length', 'title': 'Contig Length'} ,
+    {'data': 'kmer_freq', 'title': 'Kmer Freq'} ,
+    {'data': 'prediction_type', 'title': 'Prediction Type'} ,
+    {'data': 'confidence_level', 'title': 'Confidence Level'} ,
+    {'data': 'confidence_reason', 'title': 'Confidence Reason'} ,
+    {'data': 'repeat_length', 'title': 'Repeat Length'} ,
+    {'data': 'repeat_count', 'title': 'Repeat Count'} ,
+    {'data': 'repeat_n_freq', 'title': 'Repeat N Freq'} ,
+    {'data': 'repeat_mode_base_freq', 'title': 'Repeat Mode Base Freq'} ,
+    {'data': 'repeat_seq', 'title': 'Repeat Seq'} ,
     ],
     completenessTableCols = [
-    {'data': 'contig_id', 'title': 'contig_id'},
-    {'data': 'contig_length', 'title': 'contig_length'},
-    {'data': 'proviral_length', 'title': 'proviral_length'},
-    {'data': 'aai_expected_length', 'title': 'aai_expected_length'},
-    {'data': 'aai_completeness', 'title': 'aai_completeness'},
-    {'data': 'aai_confidence', 'title': 'aai_confidence'},
-    {'data': 'aai_error', 'title': 'aai_error'},
-    {'data': 'aai_num_hits', 'title': 'aai_num_hits'},
-    {'data': 'aai_top_hit', 'title': 'aai_top_hit'},
-    {'data': 'aai_id', 'title': 'aai_id'},
-    {'data': 'aai_af', 'title': 'aai_af'},
-    {'data': 'hmm_completeness_lower', 'title': 'hmm_completeness_lower'},
-    {'data': 'hmm_completeness_upper', 'title': 'hmm_completeness_upper'},
-    {'data': 'hmm_num_hits', 'title': 'hmm_num_hits'},
-    {'data': 'kmer_freq', 'title': 'kmer_freq'},
+    {'data': 'contig_id', 'title': 'Contig Id'} ,
+    {'data': 'contig_length', 'title': 'Contig Length'} ,
+    {'data': 'proviral_length', 'title': 'Proviral Length'} ,
+    {'data': 'aai_expected_length', 'title': 'Aai Expected Length'} ,
+    {'data': 'aai_completeness', 'title': 'Aai Completeness'} ,
+    {'data': 'aai_confidence', 'title': 'Aai Confidence'} ,
+    {'data': 'aai_error', 'title': 'Aai Error'} ,
+    {'data': 'aai_num_hits', 'title': 'Aai Num Hits'} ,
+    {'data': 'aai_top_hit', 'title': 'Aai Top Hit'} ,
+    {'data': 'aai_id', 'title': 'Aai Id'} ,
+    {'data': 'aai_af', 'title': 'Aai Af'} ,
+    {'data': 'hmm_completeness_lower', 'title': 'Hmm Completeness Lower'} ,
+    {'data': 'hmm_completeness_upper', 'title': 'Hmm Completeness Upper'} ,
+    {'data': 'hmm_num_hits', 'title': 'Hmm Num Hits'} ,
+    {'data': 'kmer_freq', 'title': 'Kmer Freq'} ,
     ],
     contaminationTableCols  = [
-    {'data': 'contig_id', 'title': 'contig_id'} ,
-    {'data': 'contig_length', 'title': 'contig_length'} ,
-    {'data': 'total_genes', 'title': 'total_genes'} ,
-    {'data': 'viral_genes', 'title': 'viral_genes'} ,
-    {'data': 'host_genes', 'title': 'host_genes'} ,
-    {'data': 'provirus', 'title': 'provirus'} ,
-    {'data': 'proviral_length', 'title': 'proviral_length'} ,
-    {'data': 'host_length', 'title': 'host_length'} ,
-    {'data': 'region_types', 'title': 'region_types'} ,
-    {'data': 'region_lengths', 'title': 'region_lengths'} ,
-    {'data': 'region_coords_bp', 'title': 'region_coords_bp'} ,
-    {'data': 'region_coords_genes', 'title': 'region_coords_genes'} ,
-    {'data': 'region_viral_genes', 'title': 'region_viral_genes'} ,
-    {'data': 'region_host_genes', 'title': 'region_host_genes'} ,
+    {'data': 'contig_id', 'title': 'Contig Id'} ,
+    {'data': 'contig_length', 'title': 'Contig Length'} ,
+    {'data': 'total_genes', 'title': 'Total Genes'} ,
+    {'data': 'viral_genes', 'title': 'Viral Genes'} ,
+    {'data': 'host_genes', 'title': 'Host Genes'} ,
+    {'data': 'provirus', 'title': 'Provirus'} ,
+    {'data': 'proviral_length', 'title': 'Proviral Length'} ,
+    {'data': 'host_length', 'title': 'Host Length'} ,
+    {'data': 'region_types', 'title': 'Region Types'} ,
+    {'data': 'region_lengths', 'title': 'Region Lengths'} ,
+    {'data': 'region_coords_bp', 'title': 'Region Coords Bp'} ,
+    {'data': 'region_coords_genes', 'title': 'Region Coords Genes'} ,
+    {'data': 'region_viral_genes', 'title': 'Region Viral Genes'} ,
+    {'data': 'region_host_genes', 'title': 'Region Host Genes'} ,
     ],
     quality_summaryTableCols = [
-    {'data': 'contig_id', 'title': 'contig_id'} ,
-    {'data': 'contig_length', 'title': 'contig_length'} ,
-    {'data': 'provirus', 'title': 'provirus'} ,
-    {'data': 'proviral_length', 'title': 'proviral_length'} ,
-    {'data': 'gene_count', 'title': 'gene_count'} ,
-    {'data': 'viral_genes', 'title': 'viral_genes'} ,
-    {'data': 'host_genes', 'title': 'host_genes'} ,
-    {'data': 'checkv_quality', 'title': 'checkv_quality'} ,
-    {'data': 'miuvig_quality', 'title': 'miuvig_quality'} ,
-    {'data': 'completeness', 'title': 'completeness'} ,
-    {'data': 'completeness_method', 'title': 'completeness_method'} ,
-    {'data': 'contamination', 'title': 'contamination'} ,
-    {'data': 'kmer_freq', 'title': 'kmer_freq'} ,
-    {'data': 'warnings', 'title': 'warnings'} ,
+    {'data': 'contig_id', 'title': 'Contig Id'} ,
+    {'data': 'contig_length', 'title': 'Contig Length'} ,
+    {'data': 'provirus', 'title': 'Provirus'} ,
+    {'data': 'proviral_length', 'title': 'Proviral Length'} ,
+    {'data': 'gene_count', 'title': 'Gene Count'} ,
+    {'data': 'viral_genes', 'title': 'Viral Genes'} ,
+    {'data': 'host_genes', 'title': 'Host Genes'} ,
+    {'data': 'checkv_quality', 'title': 'Checkv Quality'} ,
+    {'data': 'miuvig_quality', 'title': 'Miuvig Quality'} ,
+    {'data': 'completeness', 'title': 'Completeness'} ,
+    {'data': 'completeness_method', 'title': 'Completeness Method'} ,
+    {'data': 'contamination', 'title': 'Contamination'} ,
+    {'data': 'kmer_freq', 'title': 'Kmer Freq'} ,
+    {'data': 'warnings', 'title': 'Warnings'} ,
     ]
 
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
