@@ -1,5 +1,7 @@
+"""
+This script includes function called in kb_checkVImlp.py
+"""
 import os
-import pandas as pd
 import json
 import csv
 import subprocess
@@ -7,6 +9,7 @@ import uuid
 import zipfile
 from shutil import copy, copytree
 from html import escape
+
 
 def generate_output_file_list(result_directory, shared_folder):
     """
@@ -22,7 +25,7 @@ def generate_output_file_list(result_directory, shared_folder):
                          allowZip64=True) as zip_file:
         for file in os.listdir(result_directory):
             if file.endswith('.tsv'):
-                    zip_file.write(os.path.join(result_directory, file))
+                zip_file.write(os.path.join(result_directory, file))
 
     output_files.append({'path': result_file,
                          'name': os.path.basename(result_file),
@@ -31,52 +34,11 @@ def generate_output_file_list(result_directory, shared_folder):
 
     return output_files
 
-
-def generate_html_report(result_directory, shared_folder, dfu):
-    """
-    _generate_html_report: generate html summary report
-    """
-    html_report = list()
-    # create new output dir in scratch to store html files
-    output_directory = os.path.join(shared_folder, str(uuid.uuid4()))
-
-    os.mkdir(output_directory)
-    overview_content = ""
-    for file in os.listdir(result_directory):
-        if file.endswith('.tsv'):
-            result_file_path = os.path.join(output_directory, file[:-4] + ".html")
-            # write tsv file to html file
-            tsv_file = os.path.join(result_directory, file)
-            qs = pd.read_csv(tsv_file, delimiter="\t")
-            content = qs.to_html()
-            overview_content += "<h3> %s report</h3>" % file[:-4]
-            overview_content += content
-            html = open(result_file_path, "w")
-            html.write(content)
-            html.close()
-            # create html report
-            report_shock_id = dfu.file_to_shock({'file_path': output_directory,
-                                                 'pack': 'zip'})['shock_id']
-            html_report.append({'shock_id': report_shock_id,
-                                'name': os.path.basename(result_file_path),
-                                'label': os.path.basename(result_file_path),
-                                'description': 'HTML summary report for CheckV App'})
-    overview_content_path = os.path.join(output_directory, "overview_content.html")
-    overview_html = open(overview_content_path, "w")
-    overview_html.write(overview_content)
-    overview_html.close()
-    report_shock_id = dfu.file_to_shock({'file_path': output_directory,
-                                         'pack': 'zip'})['shock_id']
-    html_report.append({'shock_id': report_shock_id,
-                        'name': os.path.basename(overview_content_path),
-                        'label': os.path.basename(overview_content_path),
-                        'description': 'HTML summary report for CheckV App'})
-    return html_report
-
 def tsv_to_json(result_directory):
     """
     This function converts tsv file to json file
-    :param result_directory: output directory of checkv end_to_end command, includs all output tsv files
+    :param result_directory: output directory of checkv end_to_end command,
+            includs all output tsv files
     :param shared_folder: kbase working scratch folder: /kb/module/work/tmp
     """
     json_files_directory = os.path.join("/opt/work/", 'json_files_dir')
@@ -86,8 +48,8 @@ def tsv_to_json(result_directory):
             json_file_path = os.path.join(json_files_directory, file + '.json')
             # write tsv file to json file
             tsv_file_path = os.path.join(result_directory, file)
-            with open(tsv_file_path) as f:
-                reader = csv.DictReader(f, delimiter="\t")
+            with open(tsv_file_path) as tsv_file:
+                reader = csv.DictReader(tsv_file, delimiter="\t")
                 data = list(reader)
                 res = {'data': data}
                 with open(json_file_path, 'w')as jsonfile:
@@ -138,7 +100,7 @@ def generate_template_report(result_directory, shared_folder, report_client):
     tmpl_data['tmpl_vars'] = json.dumps(tmpl_data, sort_keys=True, indent=2)
     tmpl_data['template_content'] = read_template(template_file)
 
-    result = report_client.render_template({
+    report_client.render_template({
         'template_file': template_file,
         'template_data_json': json.dumps(tmpl_data),
         'output_file': os.path.join(output_report_directory, report_file)
@@ -159,6 +121,13 @@ def generate_template_report(result_directory, shared_folder, report_client):
 
 
 def run_command(command):
+    """
+    This function takes command and run it with subprocess.Popen
+    and print out the process in real time
+    :param command: command, for example:
+            ['checkv', 'end_to_end', fasta_file, output_dir, '-t', '16']
+    :return: return code after execution
+    """
     process = subprocess.Popen(command, stdout=subprocess.PIPE, encoding='utf8')
     while True:
         output = process.stdout.readline()
@@ -166,21 +135,17 @@ def run_command(command):
             break
         if output:
             print(output.strip())
-    rc = process.poll()
-    return rc
+    return_code = process.poll()
+    return return_code
 
 
-def run_kb_checkv(output_dir, fasta_file):
+def run_kb_checkv(fasta_file):
     """
-
+    This function run CheckV command on input fasta_file
+    :param fasta_file: path to Fasta_file
+    :return: output directory where checkv output tsv files are stored
     """
     os.environ['CHECKVDB'] = "/data/checkv-db-v0.6"
-    print("CheckV starts running on file:", fasta_file)
-    # # input_file_path = "/opt/work/checkv/test/test_sequences.fna"
-    # process = subprocess.run(['checkv', 'end_to_end', fasta_file, output_dir, '-t', '16'],
-    #                          stdout=subprocess.PIPE,
-    #                          stderr=subprocess.STDOUT)
-    # print(process.stdout.decode("utf-8"))
-    rc = run_command(['checkv', 'end_to_end', fasta_file, output_dir, '-t', '16'])
-    return
-
+    output_dir = "/opt/work/outputdir"
+    run_command(['checkv', 'end_to_end', fasta_file, output_dir, '-t', '16'])
+    return output_dir
