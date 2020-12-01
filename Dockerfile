@@ -18,6 +18,8 @@ RUN \
 RUN conda install -c conda-forge -c bioconda checkv
 RUN conda install -c conda-forge -c bioconda numpy
 
+RUN pip install pandas
+
 ENV CHECKVDB="/data/checkv-db-v0.6"
 COPY ./ /kb/module
 

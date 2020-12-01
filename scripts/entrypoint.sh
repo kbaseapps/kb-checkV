@@ -22,7 +22,7 @@ elif [ "${1}" = "init" ] ; then
   tar -zxvf checkv-db-v0.6.tar.gz
   rm checkv-db-v0.6.tar.gz
   if [ -d checkv-db-v0.6 ] ; then
-  	touch __READY__
+    touch __READY__
   else
     echo "Init failed"
   fi
