@@ -15,9 +15,13 @@ MAINTAINER zyang@bnl.gov
 RUN \
     apt-get update && \
     apt-get -y install gcc
+RUN conda update conda
 RUN conda install -c conda-forge -c bioconda checkv
 RUN conda install -c conda-forge -c bioconda numpy
 RUN conda install -c conda-forge -c bioconda diamond=2.0.4
+RUN pip install Jinja2
+RUN pip install nose
+RUN pip install jsonrpcbase
 
 ENV CHECKVDB="/data/checkv-db-v0.6"
 COPY ./ /kb/module
