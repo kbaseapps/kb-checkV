@@ -12,7 +12,7 @@ import uuid
 from installed_clients.AssemblyUtilClient import AssemblyUtil
 from installed_clients.KBaseReportClient import KBaseReport
 from installed_clients.DataFileUtilClient import DataFileUtil
-from kb_checkV import run_kb_checkv, generate_template_report
+from kb_checkV import run_kb_checkv, generate_template_report, generate_output_file_list
 #END_HEADER
 
 
@@ -100,10 +100,12 @@ This sample module contains one small method that filters contigs.
         # generate HTML report using template
         logging.info('start generating html files')
         html_report = generate_template_report(output_dir, self.shared_folder, kbase_report_client)
+        output_files = generate_output_file_list(output_dir, self.shared_folder)
 
         # Step 5 - Build a Report and return
         report_params = {'message': '',
                          'workspace_name': params.get('workspace_name'),
+                         'file_links': output_files,
                          'html_links': html_report,
                          'direct_html_link_index': 0,
                          'html_window_height': 333,
