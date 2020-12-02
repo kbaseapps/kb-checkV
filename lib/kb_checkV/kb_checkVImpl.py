@@ -6,6 +6,7 @@ import logging
 import os
 from pprint import pformat
 import uuid
+import subprocess
 
 
 
@@ -93,6 +94,11 @@ This sample module contains one small method that filters contigs.
 
         # Step 3 - Actually run checkv end_to_end operation
         logging.info("CheckV is running on assembly fasta file: ")
+        process = subprocess.run(['diamond', '--version'],
+                                 # process = subprocess.run(['ls', '-halF', '/opt/work/checkv'],
+                                 stdout=subprocess.PIPE,
+                                 stderr=subprocess.STDOUT)
+        logging.info('Diamond version is:{}'.format(process.stdout.decode("utf-8")))
         output_dir = run_kb_checkv(fasta_file['path'])
 
         # Step 4 - Generate the report

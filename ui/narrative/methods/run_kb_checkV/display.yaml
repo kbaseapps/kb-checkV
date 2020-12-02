@@ -38,7 +38,7 @@ parameters :
 
 description : |
     <p>CheckV is a fully automated command-line pipeline for assessing the quality of single-contig viral genomes, including identification of host contamination for integrated proviruses, estimating completeness for genome fragments, and identification of closed genomes.</p>
-    <p>CheckV is hosted on <a href="https://bitbucket.org/berkeleylab/checkv/src/master/">Checkv Bitbucket repo</a></p>
+    <p>The CheckV repo is hosted on <a href="https://bitbucket.org/berkeleylab/checkv/src/master/">Checkv Bitbucket repo</a></p>
     <p>The pipeline can be broken down into 4 main steps:<p>
 
         <p><b>A: Remove host contamination on proviruses</b></p>

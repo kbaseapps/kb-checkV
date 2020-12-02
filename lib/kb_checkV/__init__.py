@@ -145,11 +145,6 @@ def run_kb_checkv(fasta_file):
     :return: output directory where checkv output tsv files are stored
     """
     os.environ["CHECKVDB"] = "/data/checkv-db-v0.6"
-    process = subprocess.run(['diamond', '--version'],
-                             # process = subprocess.run(['ls', '-halF', '/opt/work/checkv'],
-                             stdout=subprocess.PIPE,
-                             stderr=subprocess.STDOUT)
-    print("Diamond version is: ", process.stdout.decode("utf-8"))
     output_dir = "/opt/work/outputdir"
     run_command(["checkv", "end_to_end", fasta_file, output_dir, "-t", "16"])
     return output_dir
