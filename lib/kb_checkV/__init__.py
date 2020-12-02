@@ -146,5 +146,5 @@ def run_kb_checkv(fasta_file):
     """
     os.environ["CHECKVDB"] = "/data/checkv-db-v0.6"
     output_dir = "/opt/work/outputdir"
-    run_command(["checkv", "end_to_end", fasta_file, output_dir, "-t", "16"])
+    run_command(["checkv", "end_to_end", fasta_file, output_dir, "-t", "16", "--restart"])
     return output_dir

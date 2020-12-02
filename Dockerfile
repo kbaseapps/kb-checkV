@@ -16,7 +16,7 @@ RUN \
     apt-get update && \
     apt-get -y install gcc
 RUN conda update --yes --force conda
-RUN conda install --yes -c conda-forge -c bioconda diamond
+RUN conda install --yes -c conda-forge -c bioconda diamond=2.0.4
 RUN conda install -c conda-forge -c bioconda checkv
 RUN conda install -c conda-forge -c bioconda numpy
 # RUN conda install -c conda-forge -c bioconda diamond=2.0.4
