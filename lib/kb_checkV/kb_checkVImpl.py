@@ -94,16 +94,18 @@ This sample module contains one small method that filters contigs.
 
         # Step 3 - Actually run checkv end_to_end operation
         logging.info("CheckV is running on assembly fasta file: ")
-        process = subprocess.run(['diamond', '--version'],
-                                 # process = subprocess.run(['ls', '-halF', '/opt/work/checkv'],
-                                 stdout=subprocess.PIPE,
-                                 stderr=subprocess.STDOUT)
-        logging.info("This is the command: diamond --version return code:{}".format(process.returncode))
-        logging.info('Diamond version is:{}'.format(process.stderr.decode("utf-8")))
-        # process_install = subprocess.run(["conda", "install", "-c", "conda-forge" "-c", "bioconda", "diamond=2.0.4"],
+        # process = subprocess.run(['diamond', '--version'],
+        #                          # process = subprocess.run(['ls', '-halF', '/opt/work/checkv'],
         #                          stdout=subprocess.PIPE,
         #                          stderr=subprocess.STDOUT)
-        # logging.info('Diamond version is:{}'.format(process.stdout.decode("utf-8")))
+        # logging.info("This is the command: diamond --version return code:{}".format(process.returncode))
+        # logging.info('Diamond version is:{}'.format(process.stderr.decode("utf-8")))
+        process = subprocess.run(["conda", "install", "-c", "conda-forge" "-c", "bioconda", "diamond=2.0.4"],
+                                 stdout=subprocess.PIPE,
+                                 stderr=subprocess.STDOUT)
+        logging.info('Diamond install output:{}'.format(process.stdout))
+        logging.info("installation error:{}".format(process.stderr))
+        logging.info("return code:{}".format(process.returncode))
         output_dir = run_kb_checkv(fasta_file['path'])
 
         # Step 4 - Generate the report
