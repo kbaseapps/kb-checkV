@@ -94,11 +94,14 @@ This sample module contains one small method that filters contigs.
 
         # Step 3 - Actually run checkv end_to_end operation
         logging.info("CheckV is running on assembly fasta file: ")
-        process = subprocess.run(['/miniconda/bin/diamond', '--version'],
+        # process = subprocess.run(['/miniconda/bin/diamond', '--version'],
+        process = subprocess.run(['which', 'diamond'],
                                  stdout=subprocess.PIPE,
                                  stderr=subprocess.STDOUT)
-        logging.info("This is the command: diamond --version return code:{}".format(process.returncode))
-        logging.info('Diamond version is:{}'.format(process.stderr.decode("utf-8")))
+        logging.info("which diamond return code:{}".format(process.returncode))
+        logging.info('which diamond:{}'.format(process.stderr))
+        from pprint import pprint
+        logging.info("environ var: {}".format(dict(os.environ)))
         # process = subprocess.run(["conda", "install", "-c conda-forge" "-c", "bioconda", "diamond=2.0.4"],
         #                          stdout=subprocess.PIPE,
         #                          stderr=subprocess.STDOUT)
