@@ -99,7 +99,7 @@ This sample module contains one small method that filters contigs.
                                  stdout=subprocess.PIPE,
                                  stderr=subprocess.STDOUT)
         logging.info('Diamond version is:{}'.format(process.stdout.decode("utf-8")))
-        logging.info(process.stdout)
+        logging.info("This is the command: diamond --version return code:", process.returncode)
         output_dir = run_kb_checkv(fasta_file['path'])
 
         # Step 4 - Generate the report
