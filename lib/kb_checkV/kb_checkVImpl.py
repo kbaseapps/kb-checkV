@@ -98,8 +98,12 @@ This sample module contains one small method that filters contigs.
                                  # process = subprocess.run(['ls', '-halF', '/opt/work/checkv'],
                                  stdout=subprocess.PIPE,
                                  stderr=subprocess.STDOUT)
-        logging.info('Diamond version is:{}'.format(process.stdout.decode("utf-8")))
         logging.info("This is the command: diamond --version return code:{}".format(process.returncode))
+        logging.info('Diamond version is:{}'.format(process.stderr.decode("utf-8")))
+        # process_install = subprocess.run(["conda", "install", "-c", "conda-forge" "-c", "bioconda", "diamond=2.0.4"],
+        #                          stdout=subprocess.PIPE,
+        #                          stderr=subprocess.STDOUT)
+        # logging.info('Diamond version is:{}'.format(process.stdout.decode("utf-8")))
         output_dir = run_kb_checkv(fasta_file['path'])
 
         # Step 4 - Generate the report
