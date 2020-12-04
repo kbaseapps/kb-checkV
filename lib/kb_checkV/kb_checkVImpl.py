@@ -95,6 +95,8 @@ This sample module contains one small method that filters contigs.
         # Step 3 - Actually run checkv end_to_end operation
         logging.info("CheckV is running on assembly fasta file: ")
         # process = subprocess.run(['/miniconda/bin/diamond', '--version'],
+
+        logging.info("Run command: which diamond:")
         process = subprocess.run(['which', 'diamond'],
                                  stdout=subprocess.PIPE,
                                  stderr=subprocess.STDOUT)
@@ -102,6 +104,7 @@ This sample module contains one small method that filters contigs.
         logging.info('which diamond stdout: {}'.format(process.stdout))
         logging.info('which diamond stderr: {}'.format(process.stderr))
 
+        logging.info("Run command: /miniconda/bin/diamond --version:")
         process = subprocess.run(['/miniconda/bin/diamond', '--version'],
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.STDOUT)
@@ -109,6 +112,14 @@ This sample module contains one small method that filters contigs.
         logging.info('/miniconda/bin/diamond --version stdout: {}'.format(process.stdout))
         logging.info('/miniconda/bin/diamond --version stderr: {}'.format(process.stderr))
         logging.info("environ var: {}".format(dict(os.environ)))
+
+        logging.info("Run command: conda list:")
+        process = subprocess.run(['conda', 'list'],
+                                 stdout=subprocess.PIPE,
+                                 stderr=subprocess.STDOUT)
+        logging.info("conda list return code:{}".format(process.returncode))
+        logging.info('conda list stdout: {}'.format(process.stdout))
+        logging.info('conda list stderr: {}'.format(process.stderr))
         # process = subprocess.run(["conda", "install", "-c conda-forge" "-c", "bioconda", "diamond=2.0.4"],
         #                          stdout=subprocess.PIPE,
         #                          stderr=subprocess.STDOUT)
