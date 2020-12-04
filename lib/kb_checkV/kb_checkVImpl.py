@@ -118,7 +118,7 @@ This sample module contains one small method that filters contigs.
                                  stdout=subprocess.PIPE,
                                  stderr=subprocess.STDOUT)
         logging.info("conda list return code:{}".format(process.returncode))
-        logging.info('conda list stdout: {}'.format(process.stdout).decode("utf-8"))
+        logging.info('conda list stdout: {}'.format(process.stdout))
         logging.info('conda list stderr: {}'.format(process.stderr))
         # process = subprocess.run(["conda", "install", "-c conda-forge" "-c", "bioconda", "diamond=2.0.4"],
         #                          stdout=subprocess.PIPE,
