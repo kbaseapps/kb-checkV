@@ -1,7 +1,7 @@
 #!/bin/bash
 
 . /kb/deployment/user-env.sh
-
+export PATH="$PATH:$KB_TOP/bin:$KB_RUNTIME/bin/:/miniconda/bin"
 python ./scripts/prepare_deploy_cfg.py ./deploy.cfg ./work/config.properties
 
 if [ -f ./work/token ] ; then

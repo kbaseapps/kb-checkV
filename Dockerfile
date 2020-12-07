@@ -25,6 +25,8 @@ RUN apt-get install wget
 RUN wget http://github.com/bbuchfink/diamond/releases/download/v2.0.5/diamond-linux64.tar.gz && \
     tar -zxf diamond-linux64.tar.gz diamond && \
     mv diamond /kb/deployment/bin/diamond
+ENV PATH=/kb/runtime/bin:/kb/deployment/bin:/miniconda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+RUN which diamond
 
 # RUN conda install -c conda-forge -c bioconda diamond=2.0.4
 #RUN conda install Jinja2
@@ -43,6 +45,7 @@ RUN mkdir -p /data
 
 WORKDIR /kb/module
 RUN  make all
+ENV PATH=/kb/runtime/bin:/kb/deployment/bin:/miniconda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 
 ENTRYPOINT [ "./scripts/entrypoint.sh"]
