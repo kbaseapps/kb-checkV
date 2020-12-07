@@ -17,17 +17,18 @@ RUN \
     apt-get -y install gcc
 #RUN conda update --yes --force conda
 
-RUN conda install -c conda-forge -c bioconda checkv
+RUN pip install checkv
 #RUN conda install --yes -c conda-forge -c bioconda diamond
 #RUN conda install -c bioconda diamond
-RUN conda install -c conda-forge -c bioconda numpy
+#RUN conda install -c conda-forge -c bioconda numpy
 RUN apt-get install wget
 RUN wget http://github.com/bbuchfink/diamond/releases/download/v2.0.5/diamond-linux64.tar.gz && \
     tar -zxf diamond-linux64.tar.gz diamond && \
     mv diamond /kb/deployment/bin/diamond
-ENV PATH=/kb/runtime/bin:/kb/deployment/bin:/miniconda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-RUN which diamond
-
+#ENV PATH=/kb/runtime/bin:/kb/deployment/bin:/miniconda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+#RUN which diamond
+RUN apt-get install prodigal
+RUN apt-get --yes install hmmer
 # RUN conda install -c conda-forge -c bioconda diamond=2.0.4
 #RUN conda install Jinja2
 #RUN conda install nose

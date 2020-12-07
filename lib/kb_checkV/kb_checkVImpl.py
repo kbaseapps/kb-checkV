@@ -104,13 +104,13 @@ This sample module contains one small method that filters contigs.
         logging.info('which diamond stdout: {}'.format(process.stdout))
         logging.info('which diamond stderr: {}'.format(process.stderr))
 
-        logging.info("Run command: /miniconda/bin/diamond --version:")
-        process = subprocess.run(['/miniconda/bin/diamond', '--version'],
+        logging.info("Run command: diamond --version:")
+        process = subprocess.run(['diamond', '--version'],
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.STDOUT)
-        logging.info("/miniconda/bin/diamond --version return code:{}".format(process.returncode))
-        logging.info('/miniconda/bin/diamond --version stdout: {}'.format(process.stdout))
-        logging.info('/miniconda/bin/diamond --version stderr: {}'.format(process.stderr))
+        logging.info("diamond --version return code:{}".format(process.returncode))
+        logging.info('diamond --version stdout: {}'.format(process.stdout))
+        logging.info('diamond --version stderr: {}'.format(process.stderr))
         logging.info("environ var: {}".format(dict(os.environ)))
 
         logging.info("Run command: conda list:")

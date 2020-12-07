@@ -92,7 +92,7 @@ class kb_checkVTest(unittest.TestCase):
                                                  })
         # Validate the returned data
         self.assertEqual(1,1)
-        process = subprocess.run(['/miniconda/bin/diamond', '--version'],
+        process = subprocess.run(['diamond', '--version'],
                                  # process = subprocess.run(['ls', '-halF', '/opt/work/checkv'],
                                  stdout=subprocess.PIPE,
                                  stderr=subprocess.STDOUT)
@@ -105,7 +105,7 @@ class kb_checkVTest(unittest.TestCase):
 
         process = subprocess.run(['checkv', '--help'],
                                  stdout=subprocess.PIPE)
-        # print(process.stdout.decode("utf-8"))
+        print(process.stdout.decode("utf-8"))
         self.assertEqual(process.returncode, 0)
 
 
