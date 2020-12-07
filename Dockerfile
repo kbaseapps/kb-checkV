@@ -18,9 +18,14 @@ RUN \
 #RUN conda update --yes --force conda
 
 RUN conda install -c conda-forge -c bioconda checkv
-RUN conda install --yes -c conda-forge -c bioconda diamond
+#RUN conda install --yes -c conda-forge -c bioconda diamond
 #RUN conda install -c bioconda diamond
 RUN conda install -c conda-forge -c bioconda numpy
+RUN apt-get install wget
+RUN wget http://github.com/bbuchfink/diamond/releases/download/v2.0.5/diamond-linux64.tar.gz && \
+    tar -zxf diamond-linux64.tar.gz diamond && \
+    mv diamond /kb/deployment/bin/diamond
+
 # RUN conda install -c conda-forge -c bioconda diamond=2.0.4
 #RUN conda install Jinja2
 #RUN conda install nose
