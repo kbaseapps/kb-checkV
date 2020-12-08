@@ -34,10 +34,8 @@ This sample module contains one small method that filters contigs.
     # the latter method is running.
     ######################################### noqa
     VERSION = "0.0.1"
-
-    GIT_URL = "https://github.com/kbaseapps/kb-checkV.git"
-    GIT_COMMIT_HASH = "69518e3d238baf8dae5a4751ec0684494224a28f"
-
+    GIT_URL = "git@github.com:kbaseapps/kb-checkV.git"
+    GIT_COMMIT_HASH = "b37421dac522b561a2193ce452871885fd44fd3a"
 
     #BEGIN_CLASS_HEADER
     # Class variables and functions can be defined in this block
@@ -55,6 +53,7 @@ This sample module contains one small method that filters contigs.
         logging.basicConfig(format='%(created)s %(levelname)s: %(message)s',
                             level=logging.INFO)
         #END_CONSTRUCTOR
+        pass
 
 
     def run_kb_checkV(self, ctx, params):
@@ -152,13 +151,13 @@ This sample module contains one small method that filters contigs.
                   }
 
         #END run_kb_checkV
+
         # At some point might do deeper type checking...
         if not isinstance(output, dict):
             raise ValueError('Method run_kb_checkV return value ' +
                              'output is not type dict as required.')
         # return the results
         return [output]
-
     def status(self, ctx):
         #BEGIN_STATUS
         returnVal = {'state': "OK",

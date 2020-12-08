@@ -62,7 +62,6 @@ RUN mkdir -p /data
 
 WORKDIR /kb/module
 RUN  make all
-ENV PATH=/kb/runtime/bin:/kb/deployment/bin:/miniconda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 
 ENTRYPOINT [ "./scripts/entrypoint.sh"]
