@@ -35,14 +35,14 @@ RUN apt-get install wget
 RUN apt-get install --yes cmake
 RUN apt-get install --yes build-essential
 RUN apt-get install --yes zlib1g-dev
-RUN wget http://github.com/bbuchfink/diamond/archive/v2.0.5.tar.gz && \
+RUN wget http://github.com/bbuchfink/diamond/archive/v2.0.4.tar.gz && \
     tar xzf v2.0.5.tar.gz && \
     cd diamond-2.0.5 && \
     mkdir bin && \
     cd bin && \
 #     cmake -DCMAKE_INSTALL_PREFIX=/kb/deployment/bin && \
 #     cmake -DCMAKE_BUILD_MARCH=nocona
-    cmake -DCMAKE_BUILD_MARCH=nehalem .. && \
+    cmake -DCMAKE_BUILD_MARCH=native .. && \
 #     cmake .. && \
     make -j4 && \
     make install
