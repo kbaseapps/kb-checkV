@@ -41,7 +41,8 @@ RUN wget http://github.com/bbuchfink/diamond/archive/v2.0.5.tar.gz && \
     mkdir bin && \
     cd bin && \
 #     cmake -DCMAKE_INSTALL_PREFIX=/kb/deployment/bin && \
-    cmake -DCMAKE_BUILD_MARCH=nocona .. && \
+#     cmake -DCMAKE_BUILD_MARCH=nocona
+    cmake -DCMAKE_BUILD_MARCH=native .. && \
 #     cmake .. && \
     make -j4 && \
     make install
