@@ -36,8 +36,8 @@ RUN apt-get install --yes cmake
 RUN apt-get install --yes build-essential
 RUN apt-get install --yes zlib1g-dev
 RUN wget http://github.com/bbuchfink/diamond/archive/v2.0.4.tar.gz && \
-    tar xzf v2.0.5.tar.gz && \
-    cd diamond-2.0.5 && \
+    tar xzf v2.0.4.tar.gz && \
+    cd diamond-2.0.4 && \
     mkdir bin && \
     cd bin && \
 #     cmake -DCMAKE_INSTALL_PREFIX=/kb/deployment/bin && \
