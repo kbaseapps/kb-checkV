@@ -41,7 +41,8 @@ RUN wget http://github.com/bbuchfink/diamond/archive/v2.0.5.tar.gz && \
     mkdir bin && \
     cd bin && \
 #     cmake -DCMAKE_INSTALL_PREFIX=/kb/deployment/bin && \
-    cmake .. && \
+    cmake -DCMAKE_BUILD_MARCH=nocona .. && \
+#     cmake .. && \
     make -j4 && \
     make install
 #ENV PATH=/kb/runtime/bin:/kb/deployment/bin:/miniconda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
