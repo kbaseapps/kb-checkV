@@ -115,10 +115,8 @@ class kb_checkVTest(unittest.TestCase):
 
         # Run command
         process = subprocess.run(['checkv', 'end_to_end', input_file_path, output_dir, '-t', '16'],
-        # process = subprocess.run(['ls', '-halF', '/opt/work/checkv'],
                                  stdout=subprocess.PIPE,
                                  stderr=subprocess.STDOUT)
-        # print("This is the output: ", process.stdout.decode("utf-8"))
         self.assertEqual(process.returncode, 0)
 
         # Compare files with

@@ -23,9 +23,7 @@ def generate_output_file_list(result_directory, shared_folder):
                          allowZip64=True) as zip_file:
         for root, dirs, files in os.walk(result_directory):
             for file in files:
-                if not (file.endswith('.zip') or
-                        file.endswith('.png') or
-                        file.endswith('.DS_Store')):
+                if file.endswith('.tsv'):
                     zip_file.write(os.path.join(root, file),
                                    os.path.join(os.path.basename(root), file))
     output_files.append({'path': result_file,
