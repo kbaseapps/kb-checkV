@@ -92,14 +92,20 @@ class kb_checkVTest(unittest.TestCase):
                                                  })
         # Validate the returned data
         self.assertEqual(1,1)
-
+        process = subprocess.run(['diamond', '--version'],
+                                 # process = subprocess.run(['ls', '-halF', '/opt/work/checkv'],
+                                 stdout=subprocess.PIPE,
+                                 stderr=subprocess.STDOUT)
+        print("This is the command: diamond --version return code:{}".format(process.returncode))
+        print('Diamond version is:{}'.format(process.stdout.decode("utf-8")))
+        self.assertEqual(process.returncode, 0)
 
 
     def test_run_kb_checkV_checkv_help(self):
 
         process = subprocess.run(['checkv', '--help'],
                                  stdout=subprocess.PIPE)
-        # print(process.stdout.decode("utf-8"))
+        print(process.stdout.decode("utf-8"))
         self.assertEqual(process.returncode, 0)
 
 
@@ -109,10 +115,8 @@ class kb_checkVTest(unittest.TestCase):
 
         # Run command
         process = subprocess.run(['checkv', 'end_to_end', input_file_path, output_dir, '-t', '16'],
-        # process = subprocess.run(['ls', '-halF', '/opt/work/checkv'],
                                  stdout=subprocess.PIPE,
                                  stderr=subprocess.STDOUT)
-        # print("This is the output: ", process.stdout.decode("utf-8"))
         self.assertEqual(process.returncode, 0)
 
         # Compare files with

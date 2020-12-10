@@ -15,9 +15,25 @@ MAINTAINER zyang@bnl.gov
 RUN \
     apt-get update && \
     apt-get -y install gcc
-RUN conda install -c conda-forge -c bioconda checkv
-RUN conda install -c conda-forge -c bioconda numpy
-RUN conda install -c conda-forge -c bioconda diamond=2.0.4
+
+RUN pip install checkv
+# The packages below are required for compiling diamond
+RUN apt-get install wget
+RUN apt-get install --yes cmake
+RUN apt-get install --yes build-essential
+RUN apt-get install --yes zlib1g-dev
+RUN wget http://github.com/bbuchfink/diamond/archive/v2.0.4.tar.gz && \
+    tar xzf v2.0.4.tar.gz && \
+    cd diamond-2.0.4 && \
+    mkdir bin && \
+    cd bin && \
+    cmake -DCMAKE_BUILD_MARCH=native .. && \
+    make -j4 && \
+    make install
+
+RUN apt-get install prodigal
+RUN apt-get --yes install hmmer
+
 
 ENV CHECKVDB="/data/checkv-db-v0.6"
 COPY ./ /kb/module
