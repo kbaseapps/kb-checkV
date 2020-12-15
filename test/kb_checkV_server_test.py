@@ -91,14 +91,8 @@ class kb_checkVTest(unittest.TestCase):
                                                  'assembly_input_ref': self.assembly_ref,
                                                  })
         # Validate the returned data
-        self.assertEqual(1,1)
-        process = subprocess.run(['diamond', '--version'],
-                                 # process = subprocess.run(['ls', '-halF', '/opt/work/checkv'],
-                                 stdout=subprocess.PIPE,
-                                 stderr=subprocess.STDOUT)
-        print("This is the command: diamond --version return code:{}".format(process.returncode))
-        print('Diamond version is:{}'.format(process.stdout.decode("utf-8")))
-        self.assertEqual(process.returncode, 0)
+        self.assertEqual(ret[0]['return code'], 0)
+
 
 
     def test_run_kb_checkV_checkv_help(self):

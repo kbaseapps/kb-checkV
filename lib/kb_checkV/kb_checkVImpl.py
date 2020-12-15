@@ -93,7 +93,7 @@ This sample module contains one small method that filters contigs.
 
         # Step 3 - Actually run checkv end_to_end operation
         logging.info("CheckV is running on assembly fasta file: ")
-        output_dir = run_kb_checkv(fasta_file['path'])
+        output_dir, return_code = run_kb_checkv(fasta_file['path'])
 
         # Step 4 - Generate the report
         kbase_report_client = KBaseReport(self.callback_url, service_ver='dev')
@@ -116,6 +116,7 @@ This sample module contains one small method that filters contigs.
         output = {'report_name': report_info['name'],
                   'report_ref': report_info['ref'],
                   'result_directory': output_dir,
+                  'return code': return_code,
                   }
 
         #END run_kb_checkV
