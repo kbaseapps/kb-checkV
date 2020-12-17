@@ -5,6 +5,7 @@ import subprocess
 import time
 import unittest
 
+from shutil import copyfile
 from configparser import ConfigParser
 
 from kb_checkV.kb_checkVImpl import kb_checkV
@@ -58,16 +59,8 @@ class kb_checkVTest(unittest.TestCase):
     @classmethod
     def prepareTestData(cls):
         """This function creates an assembly object for testing"""
-        fasta_content = '>seq1 something soemthing asdf\n' \
-                        'agcttttcat\n' \
-                        '>seq2\n' \
-                        'agctt\n' \
-                        '>seq3\n' \
-                        'agcttttcatgg'
-
-        filename = os.path.join(cls.scratch, 'test1.fasta')
-        with open(filename, 'w') as f:
-            f.write(fasta_content)
+        filename = os.path.join(cls.scratch, 'test_sequences.fna')
+        copyfile(input_file_path, filename)
         assemblyUtil = AssemblyUtil(cls.callback_url)
         cls.assembly_ref = assemblyUtil.save_assembly_from_fasta({
             'file': {'path': filename},
@@ -126,4 +119,3 @@ class kb_checkVTest(unittest.TestCase):
                 truth_file = csv.reader(truth_f, delimiter="\t", quotechar='"')
                 truth_header = next(truth_file)
             self.assertEqual(gen_header, truth_header)
-
