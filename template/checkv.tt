@@ -1,0 +1,248 @@
+[%
+  page_title         = 'CheckV Results';
+  include_datatables = 1;
+
+  PROCESS 'views/inc/js.tt';
+  PROCESS 'views/inc/macros.tt';
+  WRAPPER 'views/inc/page_wrapper.tt';
+
+    # table layout bits
+    complete_genomesTableCols = [
+    'Contig Id',
+    'Contig Length',
+    'Kmer Freq',
+    'Prediction Type',
+    'Confidence Level',
+    'Confidence Reason',
+    'Repeat Length',
+    'Repeat Count',
+    'Repeat N Freq',
+    'Repeat Mode Base Freq',
+    'Repeat Seq',
+    ];
+
+    completenessTableCols = [
+    'Contig Id',
+    'Contig Length',
+    'Proviral Length',
+    'Aai Expected Length',
+    'Aai Completeness',
+    'Aai Confidence',
+    'Aai Error',
+    'Aai Num Hits',
+    'Aai Top Hit',
+    'Aai Id',
+    'Aai Af',
+    'Hmm Completeness Lower',
+    'Hmm Completeness Upper',
+    'Hmm Num Hits',
+    'Kmer Freq',
+    ];
+
+    contaminationTableCols  = [
+    'Contig Id',
+    'Contig Length',
+    'Total Genes',
+    'Viral Genes',
+    'Host Genes',
+    'Provirus',
+    'Proviral Length',
+    'Host Length',
+    'Region Types',
+    'Region Lengths',
+    'Region Coords Bp',
+    'Region Coords Genes',
+    'Region Viral Genes',
+    'Region Host Genes',
+    ];
+
+    quality_summaryTableCols = [
+    'Contig Id',
+    'Contig Length',
+    'Provirus',
+    'Proviral Length',
+    'Gene Count',
+    'Viral Genes',
+    'Host Genes',
+    'Checkv Quality',
+    'Miuvig Quality',
+    'Completeness',
+    'Completeness Method',
+    'Contamination',
+    'Kmer Freq',
+    'Warnings',
+    ];
+
+
+    page_content = [
+        {   name    => "complete_genomes",
+            name_lc => "complete_genomes",
+            content => 'table',
+            file    => "complete_genomes.tsv.json",
+            table_config  => {
+              thead => {
+                enum => complete_genomesTableCols,
+              },
+            },
+        },
+        {   name    => "completeness",
+            name_lc => "completeness",
+            content => 'table',
+            file    => "completeness.tsv.json",
+            table_config  => {
+              thead => {
+                enum => completenessTableCols,
+              },
+            },
+        },
+        {   name    => "contamination",
+            name_lc => "contamination",
+            content => 'table',
+            file    => "contamination.tsv.json",
+            table_config  => {
+              thead => {
+                enum => contaminationTableCols,
+              },
+            },
+        },
+        {   name    => "quality_summary",
+            name_lc => "quality_summary",
+            content => 'table',
+            file    => "quality_summary.tsv.json",
+            table_config  => {
+              thead => {
+                enum => quality_summaryTableCols,
+              },
+            },
+        },
+    ];
+
+    # set up the table config
+    FOR item IN page_content;
+      item.table_config.for_datatables_js = 1;
+      item.table_config.id = item.name_lc _ '-table';
+      item.table_config.caption = 'CheckV results: ' _ item.name;
+    END;
+
+    tabbed_layout;
+
+    WRAPPER js_wrapper;
+%]
+    function semiColonSpacer( data, type ) {
+      return type === 'display'
+        ? data == null
+          ? data
+          : data.replace(/;/g, ';<br>')
+        : data;
+    }
+
+    function commaSpacer( data, type ) {
+      return type === 'display'
+        ? data == null
+          ? data
+          : data.replace(/,/g, ', ')
+        : data;
+    }
+
+    function dotDotDot( data, type ) {
+      return type === 'display'
+        ? data === null
+          ? data
+          : data.length > 40
+            ? '<span title="' + data + '">' + data.substr(0, 38) + '...</span>'
+            : data
+        : data;
+    }
+
+    const dataFiles = {
+[%    FOR item IN page_content;
+%]    "[% item.name_lc %]": "data/[% item.file %]",
+[%    END;
+%]    },
+
+    complete_genomesTableCols = [
+    {'data': 'contig_id', 'title': 'Contig Id'} ,
+    {'data': 'contig_length', 'title': 'Contig Length'} ,
+    {'data': 'kmer_freq', 'title': 'Kmer Freq'} ,
+    {'data': 'prediction_type', 'title': 'Prediction Type'} ,
+    {'data': 'confidence_level', 'title': 'Confidence Level'} ,
+    {'data': 'confidence_reason', 'title': 'Confidence Reason'} ,
+    {'data': 'repeat_length', 'title': 'Repeat Length'} ,
+    {'data': 'repeat_count', 'title': 'Repeat Count'} ,
+    {'data': 'repeat_n_freq', 'title': 'Repeat N Freq'} ,
+    {'data': 'repeat_mode_base_freq', 'title': 'Repeat Mode Base Freq'} ,
+    {'data': 'repeat_seq', 'title': 'Repeat Seq'} ,
+    ],
+    completenessTableCols = [
+    {'data': 'contig_id', 'title': 'Contig Id'} ,
+    {'data': 'contig_length', 'title': 'Contig Length'} ,
+    {'data': 'proviral_length', 'title': 'Proviral Length'} ,
+    {'data': 'aai_expected_length', 'title': 'Aai Expected Length'} ,
+    {'data': 'aai_completeness', 'title': 'Aai Completeness'} ,
+    {'data': 'aai_confidence', 'title': 'Aai Confidence'} ,
+    {'data': 'aai_error', 'title': 'Aai Error'} ,
+    {'data': 'aai_num_hits', 'title': 'Aai Num Hits'} ,
+    {'data': 'aai_top_hit', 'title': 'Aai Top Hit'} ,
+    {'data': 'aai_id', 'title': 'Aai Id'} ,
+    {'data': 'aai_af', 'title': 'Aai Af'} ,
+    {'data': 'hmm_completeness_lower', 'title': 'Hmm Completeness Lower'} ,
+    {'data': 'hmm_completeness_upper', 'title': 'Hmm Completeness Upper'} ,
+    {'data': 'hmm_num_hits', 'title': 'Hmm Num Hits'} ,
+    {'data': 'kmer_freq', 'title': 'Kmer Freq'} ,
+    ],
+    contaminationTableCols  = [
+    {'data': 'contig_id', 'title': 'Contig Id'} ,
+    {'data': 'contig_length', 'title': 'Contig Length'} ,
+    {'data': 'total_genes', 'title': 'Total Genes'} ,
+    {'data': 'viral_genes', 'title': 'Viral Genes'} ,
+    {'data': 'host_genes', 'title': 'Host Genes'} ,
+    {'data': 'provirus', 'title': 'Provirus'} ,
+    {'data': 'proviral_length', 'title': 'Proviral Length'} ,
+    {'data': 'host_length', 'title': 'Host Length'} ,
+    {'data': 'region_types', 'title': 'Region Types'} ,
+    {'data': 'region_lengths', 'title': 'Region Lengths'} ,
+    {'data': 'region_coords_bp', 'title': 'Region Coords Bp'} ,
+    {'data': 'region_coords_genes', 'title': 'Region Coords Genes'} ,
+    {'data': 'region_viral_genes', 'title': 'Region Viral Genes'} ,
+    {'data': 'region_host_genes', 'title': 'Region Host Genes'} ,
+    ],
+    quality_summaryTableCols = [
+    {'data': 'contig_id', 'title': 'Contig Id'} ,
+    {'data': 'contig_length', 'title': 'Contig Length'} ,
+    {'data': 'provirus', 'title': 'Provirus'} ,
+    {'data': 'proviral_length', 'title': 'Proviral Length'} ,
+    {'data': 'gene_count', 'title': 'Gene Count'} ,
+    {'data': 'viral_genes', 'title': 'Viral Genes'} ,
+    {'data': 'host_genes', 'title': 'Host Genes'} ,
+    {'data': 'checkv_quality', 'title': 'Checkv Quality'} ,
+    {'data': 'miuvig_quality', 'title': 'Miuvig Quality'} ,
+    {'data': 'completeness', 'title': 'Completeness'} ,
+    {'data': 'completeness_method', 'title': 'Completeness Method'} ,
+    {'data': 'contamination', 'title': 'Contamination'} ,
+    {'data': 'kmer_freq', 'title': 'Kmer Freq'} ,
+    {'data': 'warnings', 'title': 'Warnings'} ,
+    ]
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+      const t = e.target.id.substr(0, e.target.id.length-4)
+
+      if ( $('#' + t + '-table') && !$.fn.DataTable.isDataTable('#' + t + '-table') ) {
+        let dataFile = dataFiles[t],
+        cols = complete_genomesTableCols;
+        if ( t === 'completeness') {
+          cols = completenessTableCols;
+        } else if ( t === 'contamination' ){
+          cols = contaminationTableCols;
+        } else if ( t === 'quality_summary'){
+          cols = quality_summaryTableCols;
+        }
+[%      PROCESS default_table_conf %]
+        tableConfig.ajax = dataFile
+        tableConfig.buttons.push('colvis')
+        $('#' + t + '-table').DataTable(tableConfig);
+      }
+    })
+[%
+    END; # end js_wrapper
+  END; # end wrapper
+%]

@@ -18,19 +18,7 @@
             "default_values": [ "" ],
             "field_type": "text",
             "text_options": {
-                "valid_ws_types": [ "KBaseGenomeAnnotations.Assembly", "KBaseGenomes.ContigSet" ]
-            }
-        },
-        {
-            "id": "min_length",
-            "optional": false,
-            "advanced": false,
-            "allow_multiple": false,
-            "default_values": [ "" ],
-            "field_type": "text",
-            "text_options": {
-                "validate_as": "int",
-                "min_integer" : 0
+                "valid_ws_types": [ "KBaseGenomeAnnotations.Assembly"]
             }
         }
     ],
@@ -50,9 +38,6 @@
                     "input_parameter": "assembly_input_ref",
                     "target_property": "assembly_input_ref",
                     "target_type_transform": "resolved-ref"
-                },{
-                    "input_parameter": "min_length",
-                    "target_property": "min_length"
                 }
             ],
             "output_mapping": [

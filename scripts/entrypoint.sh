@@ -1,7 +1,6 @@
 #!/bin/bash
 
 . /kb/deployment/user-env.sh
-
 python ./scripts/prepare_deploy_cfg.py ./deploy.cfg ./work/config.properties
 
 if [ -f ./work/token ] ; then
@@ -17,6 +16,15 @@ elif [ "${1}" = "async" ] ; then
   sh ./scripts/run_async.sh
 elif [ "${1}" = "init" ] ; then
   echo "Initialize module"
+  cd /data
+  curl -O https://portal.nersc.gov/CheckV/checkv-db-v0.6.tar.gz
+  tar -zxvf checkv-db-v0.6.tar.gz
+  rm checkv-db-v0.6.tar.gz
+  if [ -d checkv-db-v0.6 ] ; then
+    touch __READY__
+  else
+    echo "Init failed"
+  fi
 elif [ "${1}" = "bash" ] ; then
   bash
 elif [ "${1}" = "report" ] ; then

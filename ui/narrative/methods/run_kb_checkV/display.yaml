@@ -1,10 +1,13 @@
 #
 # define display information
 #
-name: Filter Contigs
+name: CheckV
 tooltip: |
-    Filters the contigs by removing contigs below a length threshold
-screenshots: []
+    CheckV is a fully automated pipeline for assessing the quality of single-contig viral genomes, including identification of host contamination for integrated proviruses, estimating completeness for genome fragments, and identification of closed genomes.
+
+
+
+screenshots: [checkv_workflow.png]
 
 icon: null
 
@@ -31,11 +34,84 @@ parameters :
         ui-name : |
             Assembly
         short-hint : |
-            The assembly to filter (will be overwritten)
-    min_length :
-        ui-name : |
-            Min Length Threshold
-        short-hint : |
-            All contigs below this length will be removed
+            The assembly to run checkv
+
 description : |
-    <p>This is a simple method designed to illustrate the KBase SDK.</p>
+    <p>CheckV is a fully automated pipeline for assessing the quality of single-contig viral genomes, including identification of host contamination for integrated proviruses, estimating completeness for genome fragments, and identification of closed genomes.</p>
+    <p>The CheckV repo is hosted on <a href="https://bitbucket.org/berkeleylab/checkv/src/master/">Checkv Bitbucket repo</a></p>
+
+    <p>The pipeline can be broken down into 4 main steps:<p>
+
+        <p><b>A: Remove host contamination on proviruses</b></p>
+        <ul>
+            <li>Genes are first annotated as viral or microbial based on comparison to a custom database of HMMs</li>
+            <li>CheckV scans over the contig (5' to 3') comparing gene annotations and GC content between a pair of adjacent gene windows</li>
+            <li>This information is used to compute a score at each intergenic position and identify host-virus breakpoints</li>
+            <li>Host-virus breakpoints are identified with:</li>
+                <ul>
+                    <li>High scores (>1.2)</li>
+                    <li>A minimum of 2 host-specific genes in the putative host region (for contigs with >=10 genes)</li>
+                    <li>A minimum of 2 virus-specific genes in the putative viral region (for contigs with >=10 genes)</li>
+                    <li>A minimum of 30% genes annotated as microbial in the putative host region</li>
+                </ul>
+        </ul>
+        <p><b>B: Estimate genome completeness (2 algorithms)</b></p>
+        <ul>
+            <li>AAI-based approach (accurate point estimate for genome completeness; pictured above)</li>
+                <ul>
+                    <li>First, proteins are compared to the CheckV genome database using AAI (average amino acid identity)</li>
+                    <li>After identifying the top hits, completeness is computed as a ratio between the contig length (or viral region length for proviruses) and the length of matched reference genomes</li>
+                    <li>A confidence level is reported based on the strength of the alignment and the length of the contig</li>
+                    <li>Generally, high- and medium-confidence estimates are quite accurate and can be trusted</li>
+                </ul>
+            <li>HMM-based approach (estimated range for genome completeness)</li>
+                <ul>
+                    <li>Highly novel viruses may not match a CheckV genome with sufficient AAI (i.e. low-confidence estimate)</li>
+                    <li>In these cases CheckV identifies the viral HMMs on the contig (see panel A) and compares the contig length with reference genomes sharing the same HMMs</li>
+                    <li>CheckV then returns the estimated range for genome completeness (e.g. 35% to 60% completeness), which represents the 90% confidence interval based on the distribution of lengths of reference genomes with the same viral HMMs</li>
+                </ul>
+        </ul>
+        <p><b>C: Predict closed genomes (3 signatures)</b></p>
+        <ul>
+            <li>Direct terminal repeats (DTRs)</li>
+                <ul>
+                    <li>Repeated sequence of >20-bp at start/end of contig</li>
+                    <li>Most trusted signature in our experience</li>
+                    <li>May indicate circular genome or linear genome replicated from a circular template (i.e. concatamer)</li>
+                </ul>
+            <li>Proviruses</li>
+                <ul>
+                    <li>Viral region with predicted host boundaries at 5' and 3' ends (see panel A)</li>
+                    <li>Note: CheckV will not detect proviruses if host regions have already been removed (e.g. using VIBRANT or VirSorter)</li>
+                </ul>
+            <li>Inverted terminal repeats (ITRs)</li>
+                <ul>
+                    <li>Repeated sequence of >20-bp at start/end of contig (3' repeat is inverted)</li>
+                    <li>Least trusted signature in our experience</li>
+                </ul>
+         </ul>
+
+        <p>CheckV will also report a confidence level based on comparison to completeness estimates (panel B):</p>
+        <ul>
+            <li>High-confidence: &gt90% estimated completeness</li>
+            <li>Medium-confidence: 80-90% estimated completeness</li>
+            <li>Low-confidence: &lt80% estimated completeness</li>
+        </ul>
+        <p>For DTRs and ITRs, CheckV performs some additional filtering/checks:</p>
+        <ul>
+            <li>Ambiguous bases in repeat (e.g. "NNNNN"): &lt= 20% of repeat sequence with Ns</li>
+            <li>Mode base frequency in repeat (e.g. "AAAAA"): &lt= 75% of repeat sequence composed of single base</li>
+            <li>Maximum occurences of repeat sequence: &lt= 8 times per contig (removes highly repetetive sequences)</li>
+            <li>Maximum kmer-frquency: &lt= 1.5 (removes contigs with the same genome repeated back-to-back)</li>
+        </ul>
+        <p><b>D: Summarize quality.</b></p>
+
+        <p>Based on the results of A-C, CheckV generates a report file and assigns query contigs to one of five quality tiers (consistent with and expand upon the MIUViG quality tiers):</p>
+        <ul>
+            <li>Complete (high- or medium-confidence predictions; see panel C)</li>
+            <li>High-quality (&gt90% completeness)</li>
+            <li>Medium-quality (50-90% completeness)</li>
+            <li>Low-quality (&lt50% completeness)</li>
+            <li>Undetermined quality</li>
+        </ul>
+
