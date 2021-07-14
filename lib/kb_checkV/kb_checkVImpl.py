@@ -1,14 +1,19 @@
 # -*- coding: utf-8 -*-
 #BEGIN_HEADER
 # The header block is where all import statments should live
+
 import logging
 import os
 from pprint import pformat
+import uuid
+import subprocess
 
-from Bio import SeqIO
+
 
 from installed_clients.AssemblyUtilClient import AssemblyUtil
 from installed_clients.KBaseReportClient import KBaseReport
+from installed_clients.DataFileUtilClient import DataFileUtil
+from kb_checkV import run_kb_checkv, generate_template_report, generate_output_file_list
 #END_HEADER
 
 
@@ -29,8 +34,8 @@ This sample module contains one small method that filters contigs.
     # the latter method is running.
     ######################################### noqa
     VERSION = "0.0.1"
-    GIT_URL = ""
-    GIT_COMMIT_HASH = ""
+    GIT_URL = "git@github.com:kbaseapps/kb-checkV.git"
+    GIT_COMMIT_HASH = "b37421dac522b561a2193ce452871885fd44fd3a"
 
     #BEGIN_CLASS_HEADER
     # Class variables and functions can be defined in this block
@@ -40,11 +45,11 @@ This sample module contains one small method that filters contigs.
     # be found
     def __init__(self, config):
         #BEGIN_CONSTRUCTOR
-        
         # Any configuration parameters that are important should be parsed and
         # saved in the constructor.
         self.callback_url = os.environ['SDK_CALLBACK_URL']
         self.shared_folder = config['scratch']
+        self.dfu = DataFileUtil(self.callback_url)
         logging.basicConfig(format='%(created)s %(levelname)s: %(message)s',
                             level=logging.INFO)
         #END_CONSTRUCTOR
@@ -62,8 +67,9 @@ This sample module contains one small method that filters contigs.
         # return variables are: output
         #BEGIN run_kb_checkV
 
+        # test
         # Print statements to stdout/stderr are captured and available as the App log
-        logging.info('Starting run_kb_checkV function. Params=' + pformat(params))
+        logging.info('Starting run_kb_checkV function. Params=%s', pformat(params))
 
         # Step 1 - Parse/examine the parameters and catch any errors
         # It is important to check that parameters exist and are defined, and that nice error
@@ -73,73 +79,46 @@ This sample module contains one small method that filters contigs.
         logging.info('Validating parameters.')
         if 'workspace_name' not in params:
             raise ValueError('Parameter workspace_name is not set in input arguments')
-        workspace_name = params['workspace_name']
         if 'assembly_input_ref' not in params:
             raise ValueError('Parameter assembly_input_ref is not set in input arguments')
         assembly_input_ref = params['assembly_input_ref']
-        if 'min_length' not in params:
-            raise ValueError('Parameter min_length is not set in input arguments')
-        min_length_orig = params['min_length']
-        min_length = None
-        try:
-            min_length = int(min_length_orig)
-        except ValueError:
-            raise ValueError('Cannot parse integer from min_length parameter (' + str(min_length_orig) + ')')
-        if min_length < 0:
-            raise ValueError('min_length parameter cannot be negative (' + str(min_length) + ')')
-
 
         # Step 2 - Download the input data as a Fasta and
-        # We can use the AssemblyUtils module to download a FASTA file from our Assembly data object.
+        # We can use the AssemblyUtils module to download
+        # a FASTA file from our Assembly data object.
         # The return object gives us the path to the file that was created.
         logging.info('Downloading Assembly data as a Fasta file.')
         assemblyUtil = AssemblyUtil(self.callback_url)
         fasta_file = assemblyUtil.get_assembly_as_fasta({'ref': assembly_input_ref})
 
+        # Step 3 - Actually run checkv end_to_end operation
+        logging.info("CheckV is running on assembly fasta file: ")
+        output_dir, return_code = run_kb_checkv(fasta_file['path'])
 
-        # Step 3 - Actually perform the filter operation, saving the good contigs to a new fasta file.
-        # We can use BioPython to parse the Fasta file and build and save the output to a file.
-        good_contigs = []
-        n_total = 0
-        n_remaining = 0
-        for record in SeqIO.parse(fasta_file['path'], 'fasta'):
-            n_total += 1
-            if len(record.seq) >= min_length:
-                good_contigs.append(record)
-                n_remaining += 1
-
-        logging.info('Filtered Assembly to ' + str(n_remaining) + ' contigs out of ' + str(n_total))
-        filtered_fasta_file = os.path.join(self.shared_folder, 'filtered.fasta')
-        SeqIO.write(good_contigs, filtered_fasta_file, 'fasta')
-
-
-        # Step 4 - Save the new Assembly back to the system
-        logging.info('Uploading filtered Assembly data.')
-        new_assembly = assemblyUtil.save_assembly_from_fasta({'file': {'path': filtered_fasta_file},
-                                                              'workspace_name': workspace_name,
-                                                              'assembly_name': fasta_file['assembly_name']
-                                                              })
-
+        # Step 4 - Generate the report
+        kbase_report_client = KBaseReport(self.callback_url, service_ver='dev')
+        # generate HTML report using template
+        logging.info('start generating html files')
+        html_report = generate_template_report(output_dir, self.shared_folder, kbase_report_client)
+        output_files = generate_output_file_list(output_dir, self.shared_folder)
 
         # Step 5 - Build a Report and return
-        reportObj = {
-            'objects_created': [{'ref': new_assembly, 'description': 'Filtered contigs'}],
-            'text_message': 'Filtered Assembly to ' + str(n_remaining) + ' contigs out of ' + str(n_total)
-        }
-        report = KBaseReport(self.callback_url)
-        report_info = report.create({'report': reportObj, 'workspace_name': params['workspace_name']})
+        report_params = {'message': '',
+                         'workspace_name': params.get('workspace_name'),
+                         'file_links': output_files,
+                         'html_links': html_report,
+                         'direct_html_link_index': 0,
+                         'html_window_height': 333,
+                         'report_object_name': 'kb_checkv_report_' + str(uuid.uuid4())}
+        report_info = kbase_report_client.create_extended_report(report_params)
 
-
-        # STEP 6: contruct the output to send back
+        # # STEP 6: contruct the output to send back
         output = {'report_name': report_info['name'],
                   'report_ref': report_info['ref'],
-                  'assembly_output': new_assembly,
-                  'n_initial_contigs': n_total,
-                  'n_contigs_removed': n_total - n_remaining,
-                  'n_contigs_remaining': n_remaining
+                  'result_directory': output_dir,
+                  'return code': return_code,
                   }
-        logging.info('returning:' + pformat(output))
-                
+
         #END run_kb_checkV
 
         # At some point might do deeper type checking...
